@@ -77,18 +77,28 @@ class Game2048:
                     self.window.blit(textSurface, textRect)#68~71如果數字=0，用 self.myFont.render 方法將該值放到單元格中心
 
     def compressNumber(self, data):#壓縮數字 下面用到 傳入一個代表了一行棋盤數字列表
-        
+
         result = [0]
-        data = [x for x in data if x != 0]#遍歷 data 列表 過濾0舊表[2,0,0,2]->新表[2,2]。懶的解釋      
+        data = [x for x in data if x != 0]#遍歷 data 列表 過濾0舊表[2,0,0,2]->新表[2,2]
         for element in data:
-            if element == result[len(result) - 1]:
-                result[len(result) - 1] *= 2 
-                self.score=self.score+1
-                result.append(0)
+            if element==0 :
+                break
             else:
-                result.append(element)
+                if element == result[len(result) - 1]: 
+                    result[len(result) - 1] *= 2 
+                    result.append(0)
+                    # print(element)
+                    self.score+=element
+                    # print(element)
+                    element=0
+                else:
+                    result.append(element)
+
+
+
         #如果該元素等於列表中最後一個元素[2,2]，則將列表中最後一個元素乘以2[4,2]，然後將 0 添加到 result 列表中否則[4,0]，將該元素添加到 result 列表中。
-        result = [x for x in result if x != 0]
+        result = [x for x in result if x != 0] 
+
         return result
 
     def move(self, dir):
@@ -181,7 +191,7 @@ class Game2048Env(gym.Env,Game2048):
         # # 顯示RGB數組
         # plt.imshow(imgdata)
         # plt.show()
-        time.sleep(0.1)
+        time.sleep(0.05)
         old_score=self.env.score
         if action < 4: 
             self.env.play_ai(self._actions[action])
@@ -194,13 +204,21 @@ class Game2048Env(gym.Env,Game2048):
         pygame.event.pump()
         if 2048 in self.env.boardStatus:
             print("Win")
-            return _obvout,20,True,{}
+            return _obvout,3000,True,{}
+        if 1024 in self.env.boardStatus:
+            print("1024")
+            return _obvout,100,self.env.isend(),{}
+        if 512 in self.env.boardStatus:
+            print("512")
+            return _obvout,20,self.env.isend(),{}
         if self.env.isend():
             print("dead")
-            # print(self.env.score)
-            return _obvout,-10,self.env.isend(),{}
-        # print(self.env.score-old_score)
-        return _obvout,self.env.score-old_score,self.env.isend(),{}
+            if 256 in self.env.boardStatus:
+                print("256")
+                return _obvout,-400,self.env.isend(),{}
+            return _obvout,-500,self.env.isend(),{}
+        # print(self.env.score,old_score)
+        return _obvout,-1,self.env.isend(),{}
     
     def render(mode='human'):
         # print("AAA_A")
