@@ -1,3 +1,3 @@
 # 2048RL
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/OyCN04p-uS8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![線上讀書會 RxSwift 分享](https://img.youtube.com/vi/OyCN04p-uS8/maxresdefault.jpg)](https://www.youtube.com/watch?=OyCN04p-uS8)
